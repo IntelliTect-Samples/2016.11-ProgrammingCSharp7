@@ -85,8 +85,9 @@ Warning CS1701: Assuming assembly reference 'mscorlib, Version=2.0.0.0, Culture=
         {
             public void Eject(Storage storage)
             {
+                Storage s = new HardDrive();
                 switch(storage)
-                {           
+                {
                     case UsbKey usbKey when usbKey.IsPluggedIn:
                         usbKey.Unload();
                         Console.WriteLine("USB Drive Unloaded.");

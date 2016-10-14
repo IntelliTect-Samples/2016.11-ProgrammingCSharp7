@@ -118,6 +118,11 @@ namespace CSharp7
         }
         #endregion // Tuples
 
+        System.Threading.Tasks.ValueTask<T> Blah<T>()
+        {
+            return null;
+        }
+
         [TestMethod]
         public void CSharpCompileEnabled()
         {

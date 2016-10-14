@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CSharp7
@@ -81,18 +82,22 @@ namespace CSharp7
             byte[] image;
             #region Load Image...
             image = new byte[42];  /// Really small image. :)
+            List<long> redItems = new List<long>();
             Random random = new Random();
             for (int counter = 0; counter < image.Length; counter++)
             {
                 image[counter] = (byte)random.Next(0, 15);
+                if(image[counter] == (byte)ConsoleColor.Red) { redItems.Add(counter); }
             }
             image[image.Length - 1] = (byte)ConsoleColor.Red;  // Mock in a Red pixel at the end.
+            redItems.Add(image.Length - 1);
             #endregion // Load Image
 
             // Obtain a reference to the first red pixel
             ref byte redPixel = ref FindFirstRedEyePixel(image);
             // Update it to be Black.
             redPixel = (byte)ConsoleColor.Black;
+            Assert.AreEqual<byte>((byte)ConsoleColor.Black, image[redItems[0]]);
         }
 
 
