@@ -60,10 +60,7 @@ namespace CSharp7
         #endregion // Out Parameter Declaration
 
 
-        System.Threading.Tasks.ValueTask<T> Blah<T>()
-        {
-            return default(System.Threading.Tasks.ValueTask<T>);
-        }
+
 
         [TestMethod]
         public void CSharpCompileEnabled()

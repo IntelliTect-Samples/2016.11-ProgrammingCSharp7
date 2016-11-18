@@ -6,8 +6,47 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CSharp7
 {
+    public partial class PathInfo
+    {
+        const long LargeNumber = 1_0_0000_000_0;
+
+        public string DirectoryName { get; set; }
+        public string FileName { get; set; }
+        public string Extension { get; set; }
+
+        public string Path
+        {
+            get { return System.IO.Path.Combine(DirectoryName, FileName, Extension); }
+        }
+
+
+
+        public void Deconstruct(
+            out string directoryName, 
+            out string fileName, 
+            out string extension)
+        {
+            (directoryName, fileName, extension) = 
+                (DirectoryName, FileName, Extension);
+        }
+
+        public void Deconstruct(out string path)
+        {
+            path = Path;
+        }
+
+        public void Deconstruct(out FileInfo file)
+        {
+            file = new FileInfo(Path);
+        }
+        public void Deconstruct(out DirectoryInfo directory)
+        {
+            directory = new DirectoryInfo(Path);
+        }
+
+    }
     [TestClass]
-    public class PathInfoTests
+    public partial class PathInfoTests
     {
         [TestMethod]
         public void SplitPath_GivenPath_SuccessfullySplitsIntoConsituentNamedParts()
@@ -20,6 +59,26 @@ namespace CSharp7
                 (directoryName, fileName, extension));
         }
 
+        [TestMethod]
+        public void MyTestMethod()
+        {
+            int? number = 5;
+            if (number is int x)
+            {
+                Assert.AreEqual<int>(5, x);
+            }
+            else
+                throw new Exception();
+        }
+        [TestMethod]
+        public void MyTestMethod3()
+        {
+            int? number = null;
+            if (number is int x)
+            {
+                Assert.Fail();
+            }
+        }
         [TestMethod]
         public void SplitPath_GivenPath_SuccessfullySplitsIntoSingleTuple()
         {
@@ -37,8 +96,14 @@ namespace CSharp7
             PathInfo pathInfo = new PathInfo(@"\\test\unc\path\to\something.ext");
 
             {
+
                 // E.g. 1: Deconstructing declaration and assignment
-                (string directoryName, string fileName, string extension) = pathInfo;
+                pathInfo.Deconstruct(
+                    out string directoryName,
+                    out string fileName,
+                    out string extension);
+
+                (directoryName, fileName, extension) = pathInfo;
                 VerifyExpectedValue(directoryName, fileName, extension);
             }
             

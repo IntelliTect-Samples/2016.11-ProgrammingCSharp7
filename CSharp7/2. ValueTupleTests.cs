@@ -1,9 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
 
 namespace CSharp7
 {
+    public partial class PathInfo
+    {
+        public PathInfo(
+            string directoryName, string fileName, string extension)
+        {
+            (DirectoryName, FileName, Extension) =
+                (directoryName, fileName, extension);
+        }
+
+        public PathInfo(string path)
+        {
+            (DirectoryName, FileName, Extension) = SplitPath(path);
+        }
+
+
+
+        static public (string DirectoryName, string FileName, string Extension) SplitPath(string path)
+        {
+            // Set https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/IO for real implementation.
+
+            return (
+                System.IO.Path.GetDirectoryName(path),
+                System.IO.Path.GetFileNameWithoutExtension(path),
+                System.IO.Path.GetExtension(path)
+                );
+        }
+
+        // ERROR: You can't override by return values - even on Tuples :)
+        /*
+        public (string PathRoot, string DirectoryName, string FileNameWithoutExtension)
+            SplitPath(string path)
+        {
+            return (
+                Path.GetPathRoot(path),
+                Path.GetDirectoryName(path),
+                Path.GetFileNameWithoutExtension(path),
+                Path.GetExtension(path)
+                );
+        }
+        */
+    }
+
     [TestClass]
     public class ValueTupleTests
     {

@@ -12,6 +12,7 @@ namespace CSharp7
         {
             throw new NotImplementedException();
         }
+
     }
     public class HardDrive : Storage { }
     public class FloppyDrive : Storage { }
@@ -45,6 +46,7 @@ namespace CSharp7
 
             public void Eject(Storage storage)
             {
+                
                 if (storage is null)
                 {
                     throw new ArgumentNullException();
@@ -88,6 +90,9 @@ Warning CS1701: Assuming assembly reference 'mscorlib, Version=2.0.0.0, Culture=
                 Storage s = new HardDrive();
                 switch(storage)
                 {
+                    case Storage:
+                        // Yikes!!!
+                        break;
                     case UsbKey usbKey when usbKey.IsPluggedIn:
                         usbKey.Unload();
                         Console.WriteLine("USB Drive Unloaded.");
