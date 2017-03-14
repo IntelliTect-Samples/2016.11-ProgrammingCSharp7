@@ -19,8 +19,6 @@ namespace CSharp7
             get { return System.IO.Path.Combine(DirectoryName, FileName, Extension); }
         }
 
-
-
         public void Deconstruct(
             out string directoryName, 
             out string fileName, 
@@ -34,7 +32,6 @@ namespace CSharp7
         {
             path = Path;
         }
-
         public void Deconstruct(out FileInfo file)
         {
             file = new FileInfo(Path);
@@ -55,8 +52,9 @@ namespace CSharp7
                 PathInfo.SplitPath(@"\\test\unc\path\to\something.ext");
 
             Assert.AreEqual<(string DirectoryName, string FileName, string Extension)>(
-                (@"\\test\unc\path\to", "something",".ext"),
-                (directoryName, fileName, extension));
+                (@"\\test\unc\path\to", "something",".ext"),  // Expected
+                (directoryName, fileName, extension)          // Actual
+                );
         }
 
         [TestMethod]
