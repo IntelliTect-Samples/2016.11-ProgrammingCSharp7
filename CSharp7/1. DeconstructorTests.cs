@@ -25,12 +25,6 @@ namespace CSharp7
 
     public partial class PathInfo
     {
-        const long LargeNumber = 1_0_0000_000_0;
-        const int binaryNumber = 0b101_010;
-
-        public string DirectoryName { get; set; }
-        public string FileName { get; set; }
-        public string Extension { get; set; }
 
         public string Path
         {
@@ -47,7 +41,7 @@ namespace CSharp7
             extension = Extension;
         }
 
-            #region Single parameter constructors are not supported as deconstructors
+        #region Single parameter constructors are not supported as deconstructors
         public void Deconstruct(out string path)
         {
             path = Path;
@@ -60,7 +54,7 @@ namespace CSharp7
         {
             directory = new DirectoryInfo(Path);
         }
-#endregion Single parameter constructors are not supported as deconstructors
+        #endregion Single parameter constructors are not supported as deconstructors
     }
 
     [TestClass]

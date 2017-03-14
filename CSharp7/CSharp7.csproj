@@ -160,7 +160,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="1. NumericLiteralsImproved.cs" />
     <Compile Include="6. ExpressionBociedMemberTests.cs" />
+    <Compile Include="0. PathInfo.cs" />
     <Compile Include="References\CompilerAssert.cs" />
     <Compile Include="References\Cryptographer.cs" />
     <Compile Include="References\CSharp7Tests.cs" />
