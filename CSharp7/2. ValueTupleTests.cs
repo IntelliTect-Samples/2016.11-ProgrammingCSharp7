@@ -20,10 +20,9 @@ namespace CSharp7
         }
 
 
-
         static public (string DirectoryName, string FileName, string Extension) SplitPath(string path)
         {
-            // Set https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/IO for real implementation.
+            // See https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/IO for real implementation.
 
             return (
                 System.IO.Path.GetDirectoryName(path),
