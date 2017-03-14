@@ -7,6 +7,26 @@ namespace CSharp7
 {
     public partial class PathInfo
     {
+
+        // Set https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/IO for real implementation.
+        static public void SplitPath(string path, 
+            out string DirectoryName, out string FileName, out string Extension)
+        {
+            DirectoryName = System.IO.Path.GetDirectoryName(path);
+            FileName = System.IO.Path.GetFileNameWithoutExtension(path);
+            Extension = System.IO.Path.GetExtension(path);
+        }
+
+        // Set https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/IO for real implementation.
+        static public (string DirectoryName, string FileName, string Extension) SplitPath(string path)
+        {
+            return (
+                System.IO.Path.GetDirectoryName(path),
+                System.IO.Path.GetFileNameWithoutExtension(path),
+                System.IO.Path.GetExtension(path)
+                );
+        }
+
         public PathInfo(
             string directoryName, string fileName, string extension)
         {
@@ -17,18 +37,6 @@ namespace CSharp7
         public PathInfo(string path)
         {
             (DirectoryName, FileName, Extension) = SplitPath(path);
-        }
-
-
-        static public (string DirectoryName, string FileName, string Extension) SplitPath(string path)
-        {
-            // See https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/IO for real implementation.
-
-            return (
-                System.IO.Path.GetDirectoryName(path),
-                System.IO.Path.GetFileNameWithoutExtension(path),
-                System.IO.Path.GetExtension(path)
-                );
         }
 
         // ERROR: You can't override by return values - even on Tuples :)
