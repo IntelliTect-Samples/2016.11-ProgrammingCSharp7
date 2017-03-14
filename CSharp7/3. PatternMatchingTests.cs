@@ -3,8 +3,24 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CSharp7
 {
+    [TestClass]
+    public class PatternMatchingTestClass
+    {
+        [TestMethod]
+        public void MyTestMethod()
+        {
+            Dvd dvd = new Dvd();
+            switch (dvd)
+            {
+                case Storage storage:
+                    throw new Exception();
+            }
+        }
+    }
+
+
     public abstract class Storage { }
-    public class DVD : Storage
+    public class Dvd : Storage
     {
         public Boolean IsInserted { get; internal set; }
 
@@ -25,6 +41,10 @@ namespace CSharp7
             throw new NotImplementedException();
         }
     }
+
+
+
+
 
     public class PatternMatchingTests
     {
@@ -61,7 +81,7 @@ namespace CSharp7
                 {
                     throw new InvalidOperationException();
                 }
-                else if (storage is DVD dvd && dvd.IsInserted)
+                else if (storage is Dvd dvd && dvd.IsInserted)
                 {
                     dvd.Eject();
                 }
@@ -90,14 +110,14 @@ Warning CS1701: Assuming assembly reference 'mscorlib, Version=2.0.0.0, Culture=
                 Storage s = new HardDrive();
                 switch(storage)
                 {
-                    case Storage:
-                        // Yikes!!!
-                        break;
+                    //case Storage tempStorage:
+                    //    throw new Exception();
+                    //    break;
                     case UsbKey usbKey when usbKey.IsPluggedIn:
                         usbKey.Unload();
                         Console.WriteLine("USB Drive Unloaded.");
                         break;
-                    case DVD dvd when dvd.IsInserted:
+                    case Dvd dvd when dvd.IsInserted:
                         dvd.Eject();
                         break;
                     case HardDrive hardDrive:
@@ -107,6 +127,15 @@ Warning CS1701: Assuming assembly reference 'mscorlib, Version=2.0.0.0, Culture=
                         throw new ArgumentNullException();
                 }
             }
+
+            [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod]
+            public void MyTestMethod()
+            {
+                Dvd dvd = new Dvd();
+                Eject(dvd);
+            }
+
+
 
             [TestMethod]
             public void SwitchStatement_DefaultFirst_MatchesLast()
@@ -179,9 +208,9 @@ Warning CS1701: Assuming assembly reference 'mscorlib, Version=2.0.0.0, Culture=
             {
                 throw new InvalidOperationException();
             }
-            else if (storage is DVD)
+            else if (storage is Dvd)
             {
-                DVD dvd = (DVD)storage;
+                Dvd dvd = (Dvd)storage;
                 if (dvd.IsInserted) { dvd.Eject(); }
                 else throw new NotImplementedException();
             }

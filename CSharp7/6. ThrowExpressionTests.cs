@@ -9,7 +9,8 @@ namespace CSharp7
     class TemporaryFile
     {
         public TemporaryFile(string fileName) =>
-            File = new FileInfo(fileName ?? throw new ArgumentNullException());
+            File = new FileInfo(
+                fileName ?? throw new ArgumentNullException());
         ~TemporaryFile() => Dispose();
         FileInfo _File;
         public FileInfo File

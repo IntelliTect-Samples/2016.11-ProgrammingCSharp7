@@ -9,13 +9,18 @@ namespace CSharp7
 {
     public partial class PathInfo
     {
-        
-        //  ERROR: Expression bodied members not yet supported.
-        public string Path
+        class TemporaryFile
         {
-            get => System.IO.Path.Combine(DirectoryName, FileName, Extension);
+            public TemporaryFile(string fileName) =>
+                File = new FileInfo(fileName ?? throw new ArgumentNullException());
+            ~TemporaryFile() => Dispose();
+            FileInfo _File;
+            public FileInfo File
+            {
+                get => _File;
+                set => _File = value;
+            }
+            void Dispose() => File?.Delete();
         }
-        
-
     }
 }

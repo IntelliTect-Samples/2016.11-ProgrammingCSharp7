@@ -6,9 +6,27 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CSharp7
 {
+    [TestClass]
+    public class MyTestClass
+    {
+        [TestMethod]
+        public void MyTestMethod()
+        {
+            Dvd dvd = new Dvd();
+            switch (dvd)
+            {
+                case Storage storage:
+                    throw new Exception();
+            }
+        }
+    }
+
+
+
     public partial class PathInfo
     {
         const long LargeNumber = 1_0_0000_000_0;
+        const int binaryNumber = 0b101_010;
 
         public string DirectoryName { get; set; }
         public string FileName { get; set; }
@@ -24,10 +42,12 @@ namespace CSharp7
             out string fileName, 
             out string extension)
         {
-            (directoryName, fileName, extension) = 
-                (DirectoryName, FileName, Extension);
+            directoryName = DirectoryName;
+            fileName = FileName;
+            extension = Extension;
         }
 
+            #region Single parameter constructors are not supported as deconstructors
         public void Deconstruct(out string path)
         {
             path = Path;
@@ -40,16 +60,21 @@ namespace CSharp7
         {
             directory = new DirectoryInfo(Path);
         }
-
+#endregion Single parameter constructors are not supported as deconstructors
     }
+
     [TestClass]
     public partial class PathInfoTests
     {
         [TestMethod]
         public void SplitPath_GivenPath_SuccessfullySplitsIntoConsituentNamedParts()
         {
-            (string directoryName, string fileName, string extension) =
-                PathInfo.SplitPath(@"\\test\unc\path\to\something.ext");
+
+
+            PathInfo pathInfo = new PathInfo(@"\\test\unc\path\to\something.ext");
+
+            
+            (string directoryName, string fileName, string extension) = pathInfo;
 
             Assert.AreEqual<(string DirectoryName, string FileName, string Extension)>(
                 (@"\\test\unc\path\to", "something",".ext"),  // Expected
@@ -83,7 +108,7 @@ namespace CSharp7
             var normalizedPath =
                 PathInfo.SplitPath(@"\\test\unc\path\to\something.ext");
 
-            Assert.AreEqual<(string DirectoryName, string FileName, string Extension)>(
+            Assert.AreEqual<(string, string , string )>(
                 (@"\\test\unc\path\to", "something", ".ext"),
                 (normalizedPath.DirectoryName, normalizedPath.FileName, normalizedPath.Extension));
         }

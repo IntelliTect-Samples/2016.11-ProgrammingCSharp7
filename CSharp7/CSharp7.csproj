@@ -160,7 +160,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <None Include="6. ExpressionBociedMemberTests.cs" />
+    <Compile Include="6. ExpressionBociedMemberTests.cs" />
     <Compile Include="References\CompilerAssert.cs" />
     <Compile Include="References\Cryptographer.cs" />
     <Compile Include="References\CSharp7Tests.cs" />
@@ -169,7 +169,7 @@
     <Compile Include="1. DeconstructorTests.cs" />
     <Compile Include="5. ReturnByReferenceTests.cs" />
     <Compile Include="4. LocalFunctionTests.cs" />
-    <None Include="3. PatternMatchingTests.cs" />
+    <Compile Include="3. PatternMatchingTests.cs" />
     <Compile Include="References\ExpressionBodiedMemberTests.cs" />
     <Compile Include="2. ValueTupleTests.cs" />
     <None Include="6. ThrowExpressionTests.cs" />

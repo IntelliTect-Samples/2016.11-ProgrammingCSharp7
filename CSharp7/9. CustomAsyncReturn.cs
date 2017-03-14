@@ -19,7 +19,7 @@ namespace CSharp7
             return Encoding.Default.GetString(buffer);
         }
 
-        private static async Task<byte[]> Compress(byte[] buffer)
+        private static async ValueTask<byte[]> Compress(byte[] buffer)
         {
             if (buffer.Length == 0)
             {
@@ -79,7 +79,7 @@ namespace CSharp7
             ms.Dispose();
             return sB.ToString();
         }
-
+        
         public async ValueTask<long> GetDirectorySizeAsync<T>(string path, string searchPattern)
         {
             if (!Directory.EnumerateFileSystemEntries(path, searchPattern).Any())
@@ -121,14 +121,14 @@ namespace CSharp7
 
         private static Cryptographer Cryptographer { get; set; }  = new Cryptographer();
 
-        private static async void Encrypt(string fileName)
-        {
-            if (Path.GetExtension(fileName) == ".encrypt") return;
-            File.Delete($"{fileName}.encrypt");
-            byte[] encryptedText = await Cryptographer.Encrypt(File.ReadAllBytes(fileName));
-            File.WriteAllBytes($"{fileName}.encrypt", encryptedText);
-            Console.WriteLine($"<<<<<Finished encrypting '{ fileName}'.");
-        }
+        //private static async void Encrypt(string fileName)
+        //{   
+        //    if (Path.GetExtension(fileName) == ".encrypt") return;
+        //    File.Delete($"{fileName}.encrypt");
+        //    byte[] encryptedText = await Cryptographer.Encrypt(File.ReadAllBytes(fileName));
+        //    File.WriteAllBytes($"{fileName}.encrypt", encryptedText);
+        //    Console.WriteLine($"<<<<<Finished encrypting '{ fileName}'.");
+        //}
     }
 
 }
