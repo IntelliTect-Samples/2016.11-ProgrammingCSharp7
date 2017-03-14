@@ -161,19 +161,20 @@
   </Choose>
   <ItemGroup>
     <Compile Include="1. NumericLiteralsImproved.cs" />
-    <Compile Include="6. ExpressionBociedMemberTests.cs" />
-    <Compile Include="0. PathInfo.cs" />
+    <Compile Include="2. InlineOutVariableDeclaration.cs" />
+    <Compile Include="3. ValueTupleTests.cs" />
+    <Compile Include="4. DeconstructorTests.cs" />
+    <Compile Include="5. PatternMatchingTests.cs" />
+    <Compile Include="6. PatternMatchingTests.cs" />
+    <Compile Include="7. ExpressionBociedMemberTests.cs" />
+    <Compile Include="8. CustomAsyncReturn.cs" />
     <Compile Include="References\CompilerAssert.cs" />
     <Compile Include="References\Cryptographer.cs" />
     <Compile Include="References\CSharp7Tests.cs" />
-    <Compile Include="9. CustomAsyncReturn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="1. DeconstructorTests.cs" />
-    <Compile Include="5. ReturnByReferenceTests.cs" />
     <Compile Include="4. LocalFunctionTests.cs" />
-    <Compile Include="3. PatternMatchingTests.cs" />
     <Compile Include="References\ExpressionBodiedMemberTests.cs" />
-    <Compile Include="2. ValueTupleTests.cs" />
+    <Compile Include="_. PathInfo.cs" />
     <None Include="6. ThrowExpressionTests.cs" />
   </ItemGroup>
   <ItemGroup>

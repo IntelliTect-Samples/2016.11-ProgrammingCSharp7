@@ -3,21 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CSharp7
 {
-    [TestClass]
-    public class PatternMatchingTestClass
-    {
-        [TestMethod]
-        public void MyTestMethod()
-        {
-            Dvd dvd = new Dvd();
-            switch (dvd)
-            {
-                case Storage storage:
-                    throw new Exception();
-            }
-        }
-    }
-
 
     public abstract class Storage { }
     public class Dvd : Storage
@@ -52,21 +37,41 @@ namespace CSharp7
         public class IsOperatorPatternMatchingExamples
         {
             [TestMethod]
+            public void IsOperatorWithInt32()
+            {
+                int? number = 5;
+                if (number is int x)
+                {
+                    Assert.AreEqual<int>(5, x);
+                }
+                else
+                    throw new Exception();
+            }
+            [TestMethod]
+            public void IsOperatorWithInt32SetToNull()
+            {
+                int? number = null;
+                if (number is int x)
+                {
+                    Assert.Fail();
+                }
+            }
+
+            [TestMethod]
             public void IsAsAnEqualityOperator()
             {
                 Storage storage = null;
                 Assert.IsTrue(storage is null);
                 storage = new UsbKey();
                 Assert.IsFalse(storage is null);
-                string text1 = "Inigo Montoya";
 
+                string text1 = "Inigo Montoya";
                 Assert.IsTrue(text1 is "Inigo Montoya");
             }
 
 
             public void Eject(Storage storage)
             {
-                
                 if (storage is null)
                 {
                     throw new ArgumentNullException();
@@ -107,7 +112,6 @@ Warning CS1701: Assuming assembly reference 'mscorlib, Version=2.0.0.0, Culture=
         {
             public void Eject(Storage storage)
             {
-                Storage s = new HardDrive();
                 switch(storage)
                 {
                     //case Storage tempStorage:
@@ -127,15 +131,6 @@ Warning CS1701: Assuming assembly reference 'mscorlib, Version=2.0.0.0, Culture=
                         throw new ArgumentNullException();
                 }
             }
-
-            [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod]
-            public void MyTestMethod()
-            {
-                Dvd dvd = new Dvd();
-                Eject(dvd);
-            }
-
-
 
             [TestMethod]
             public void SwitchStatement_DefaultFirst_MatchesLast()
@@ -219,3 +214,4 @@ Warning CS1701: Assuming assembly reference 'mscorlib, Version=2.0.0.0, Culture=
 
     }
 }
+

@@ -90,6 +90,17 @@ namespace CSharp7
         }
 
         [TestMethod]
+        public void SplitPath_GivenPath_SuccessfullySplitsIntoSingleTuple()
+        {
+            var normalizedPath =
+                PathInfo.SplitPath(@"\\test\unc\path\to\something.ext");
+
+            Assert.AreEqual<(string, string, string)>(
+                (@"\\test\unc\path\to", "something", ".ext"),
+                (normalizedPath.DirectoryName, normalizedPath.FileName, normalizedPath.Extension));
+        }
+
+        [TestMethod]
         public void Constructor_OmitItemName()
         {
             (string DirectoryName, string FileName, string Extension) pathData =

@@ -43,52 +43,6 @@ namespace CSharp7
     [TestClass]
     public partial class PathInfoTests
     {
-        [TestMethod]
-        public void SplitPath_GivenPath_SuccessfullySplitsIntoConsituentNamedParts()
-        {
-
-
-            PathInfo pathInfo = new PathInfo(@"\\test\unc\path\to\something.ext");
-
-            
-            (string directoryName, string fileName, string extension) = pathInfo;
-
-            Assert.AreEqual<(string DirectoryName, string FileName, string Extension)>(
-                (@"\\test\unc\path\to", "something",".ext"),  // Expected
-                (directoryName, fileName, extension)          // Actual
-                );
-        }
-
-        [TestMethod]
-        public void MyTestMethod()
-        {
-            int? number = 5;
-            if (number is int x)
-            {
-                Assert.AreEqual<int>(5, x);
-            }
-            else
-                throw new Exception();
-        }
-        [TestMethod]
-        public void MyTestMethod3()
-        {
-            int? number = null;
-            if (number is int x)
-            {
-                Assert.Fail();
-            }
-        }
-        [TestMethod]
-        public void SplitPath_GivenPath_SuccessfullySplitsIntoSingleTuple()
-        {
-            var normalizedPath =
-                PathInfo.SplitPath(@"\\test\unc\path\to\something.ext");
-
-            Assert.AreEqual<(string, string , string )>(
-                (@"\\test\unc\path\to", "something", ".ext"),
-                (normalizedPath.DirectoryName, normalizedPath.FileName, normalizedPath.Extension));
-        }
 
         [TestMethod]
         public void Deconstruct_GivenFileNamePathInfo_SeparateDirectoryNameFileNameExtension()
@@ -147,30 +101,6 @@ namespace CSharp7
         }
 
         [TestMethod]
-        public void Deconstruct_GivenSingleOutOParameter_FailsCompilation()
-        {
-            string[] expectedErrors = {
-                        "Error CS1002: ; expected",
-                        "Error CS1002: ; expected",
-                        "Error CS1513: } expected",
-                        "Error CS1525: Invalid expression term '='",
-                        "Error CS0119: 'FileInfo' is a type, which is not valid in the given context",
-                        "Error CS0119: 'FileInfo' is a type, which is not valid in the given context",
-                        "Error CS0103: The name 'path' does not exist in the current context",
-                        "Error CS1026: ) expected"
-                    };
-
-
-            CompilerAssert.StatementsFailCompilation(
-                @"
-                        PathInfo pathInfo = new PathInfo(
-                            @""\\test\unc\path\to\something.ext"");
-                        (FileInfo path) = pathInfo; 
-                ",
-                expectedErrors);
-        }
-
-        [TestMethod]
         public void Deconstruct_GivenPathInfo_DeconstructingAndAssignment()
         {
             string directoryName, fileName, extension = null;
@@ -197,5 +127,45 @@ namespace CSharp7
                 (@"\\test\unc\path\to", "something", ".ext"),
                 (directoryName, fileName, extension));
         }
+
+
+        [TestMethod]
+        public void Deconstruct_GivenSingleOutOParameter_FailsCompilation()
+        {
+            string[] expectedErrors = {
+                        "Error CS1002: ; expected",
+                        "Error CS1002: ; expected",
+                        "Error CS1513: } expected",
+                        "Error CS1525: Invalid expression term '='",
+                        "Error CS0119: 'FileInfo' is a type, which is not valid in the given context",
+                        "Error CS0119: 'FileInfo' is a type, which is not valid in the given context",
+                        "Error CS0103: The name 'path' does not exist in the current context",
+                        "Error CS1026: ) expected"
+                    };
+
+
+            CompilerAssert.StatementsFailCompilation(
+                @"
+                        PathInfo pathInfo = new PathInfo(
+                            @""\\test\unc\path\to\something.ext"");
+                        (FileInfo path) = pathInfo; 
+                ",
+                expectedErrors);
+        }
+
+        [TestMethod]
+        public void SplitPath_GivenPath_SuccessfullySplitsIntoConsituentNamedParts()
+        {
+
+            PathInfo pathInfo = new PathInfo(@"\\test\unc\path\to\something.ext");
+
+            (string directoryName, string fileName, string extension) = pathInfo;
+
+            Assert.AreEqual<(string DirectoryName, string FileName, string Extension)>(
+                (@"\\test\unc\path\to", "something", ".ext"),  // Expected
+                (directoryName, fileName, extension)          // Actual
+                );
+        }
+
     }
 }
