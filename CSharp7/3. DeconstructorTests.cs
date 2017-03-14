@@ -6,23 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CSharp7
 {
-    [TestClass]
-    public class MyTestClass
-    {
-        [TestMethod]
-        public void MyTestMethod()
-        {
-            Dvd dvd = new Dvd();
-            switch (dvd)
-            {
-                case Storage storage:
-                    throw new Exception();
-            }
-        }
-    }
-
-
-
     public partial class PathInfo
     {
 
