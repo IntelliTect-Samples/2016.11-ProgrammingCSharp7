@@ -165,9 +165,9 @@
     <Compile Include="3. ValueTupleTests.cs" />
     <Compile Include="4. DeconstructorTests.cs" />
     <Compile Include="5. PatternMatchingTests.cs" />
-    <Compile Include="6. PatternMatchingTests.cs" />
     <Compile Include="7. ExpressionBociedMemberTests.cs" />
     <Compile Include="8. CustomAsyncReturn.cs" />
+    <Compile Include="9. ReturnByReferenceTests.cs" />
     <Compile Include="References\CompilerAssert.cs" />
     <Compile Include="References\Cryptographer.cs" />
     <Compile Include="References\CSharp7Tests.cs" />
