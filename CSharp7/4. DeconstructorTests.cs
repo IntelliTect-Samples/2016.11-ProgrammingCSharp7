@@ -43,13 +43,17 @@ namespace CSharp7
     [TestClass]
     public partial class PathInfoTests
     {
+        void VerifyExpectedValue(string directoryName, string fileName, string extension)
+        {
+            Assert.AreEqual<(string DirectoryName, string FileName, string Extension)>(
+                (@"\\test\unc\path\to", "something", ".ext"),
+                (directoryName, fileName, extension));
+        }
 
         [TestMethod]
-        public void Deconstruct_GivenFileNamePathInfo_SeparateDirectoryNameFileNameExtension()
+        public void Deconstruct_CalledExplicitly_Success()
         {
             PathInfo pathInfo = new PathInfo(@"\\test\unc\path\to\something.ext");
-
-            {
 
                 // E.g. 1: Deconstructing declaration and assignment
                 pathInfo.Deconstruct(
@@ -59,28 +63,27 @@ namespace CSharp7
 
                 (directoryName, fileName, extension) = pathInfo;
                 VerifyExpectedValue(directoryName, fileName, extension);
-            }
-            
-            {
-                string directoryName, fileName, extension = null;
-                // E.g. 2: Deconstructing assignment
-                (directoryName, fileName, extension) = pathInfo;
-                VerifyExpectedValue(directoryName, fileName, extension);
-            }
+        }
 
-            {
-                // E.g. 3: Deconstructing declaration and assignment with var
-                var (directoryName, fileName, extension) = pathInfo;
-                VerifyExpectedValue(directoryName, fileName, extension);
-            }
+        [TestMethod]
+        public void Deconstruct_GivenFileNamePathInfo_SeparateDirectoryNameFileNameExtension()
+        {
+            PathInfo pathInfo = new PathInfo(@"\\test\unc\path\to\something.ext");
 
-            void VerifyExpectedValue(string directoryName, string fileName, string extension)
-            {
-                Assert.AreEqual<(string DirectoryName, string FileName, string Extension)>(
-                    (@"\\test\unc\path\to", "something", ".ext"),
-                    (directoryName, fileName, extension));
-            }
+            string directoryName, fileName, extension = null;
+            // E.g. 2: Deconstructing assignment
+            (directoryName, fileName, extension) = pathInfo;
+            VerifyExpectedValue(directoryName, fileName, extension);
+        }
 
+        [TestMethod]
+        public void Deconstruct_GivenFileNamePathInfo_DeconstructImplicitlyWithVar()
+        {
+            PathInfo pathInfo = new PathInfo(@"\\test\unc\path\to\something.ext");
+
+            // E.g. 3: Deconstructing declaration and assignment with var
+            var (directoryName, fileName, extension) = pathInfo;
+            VerifyExpectedValue(directoryName, fileName, extension);
         }
 
         [TestMethod]

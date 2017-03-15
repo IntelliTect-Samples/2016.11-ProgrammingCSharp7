@@ -1,21 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
 
 namespace CSharp7
 {
     public partial class PathInfo
     {
-
-        // Set https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/IO for real implementation.
-        static public void SplitPath(string path, 
-            out string DirectoryName, out string FileName, out string Extension)
-        {
-            DirectoryName = System.IO.Path.GetDirectoryName(path);
-            FileName = System.IO.Path.GetFileNameWithoutExtension(path);
-            Extension = System.IO.Path.GetExtension(path);
-        }
 
         // Set https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/IO for real implementation.
         static public (string DirectoryName, string FileName, string Extension) SplitPath(string path)
@@ -27,18 +17,18 @@ namespace CSharp7
                 );
         }
 
+        public PathInfo(string path)
+        {
+            // Assigning a tupe to individual variables (properties in this case).
+            (DirectoryName, FileName, Extension) = SplitPath(path);
+        }
+
         public PathInfo(
             string directoryName, string fileName, string extension)
         {
             (DirectoryName, FileName, Extension) =
                 (directoryName, fileName, extension);
         }
-
-        public PathInfo(string path)
-        {
-            (DirectoryName, FileName, Extension) = SplitPath(path);
-        }
-
         // ERROR: You can't override by return values - even on Tuples :)
         /*
         public (string PathRoot, string DirectoryName, string FileNameWithoutExtension)
@@ -58,35 +48,19 @@ namespace CSharp7
     public class ValueTupleTests
     {
         [TestMethod]
-        public void Constructor_CreateTuple()
+        public void ValueTuple_GivenTuple_VariableDeclarationWithVarAgainstTuple()
         {
-            (string DirectoryName, string FileName, string Extension) pathData =
-                (DirectoryName: @"\\test\unc\path\to", 
-                FileName: "something", 
-                Extension: ".ext");
+            var (directoryName, fileName, extension) = PathInfo.SplitPath(@"\\test\unc\path\to\something\.ext");
 
             Assert.AreEqual<string>(
-                @"\\test\unc\path\to", pathData.DirectoryName);
+                @"\\test\unc\path\to", directoryName);
             Assert.AreEqual<string>(
-                "something", pathData.FileName);
+                "something", fileName);
             Assert.AreEqual<string>(
-                ".ext", pathData.Extension);
-
-            Assert.AreEqual<(string DirectoryName, string FileName, string Extension)>(
-                (DirectoryName: @"\\test\unc\path\to", 
-                    FileName: "something", Extension: ".ext"),
-                (pathData));
-
-            Assert.AreEqual<(string DirectoryName, string FileName, string Extension)>(
-                (@"\\test\unc\path\to", "something", ".ext"),
-                (pathData));
+                ".ext", extension);
 
             Assert.AreEqual<(string, string, string)>(
-                (@"\\test\unc\path\to", "something", ".ext"),
-                (pathData));
-
-            Assert.AreEqual<Type>(typeof(ValueTuple<string, string, string>), 
-                pathData.GetType());
+                (@"\\test\unc\path\to", "something", ".ext"), (directoryName, fileName, extension));
         }
 
         [TestMethod]
@@ -98,6 +72,73 @@ namespace CSharp7
             Assert.AreEqual<(string, string, string)>(
                 (@"\\test\unc\path\to", "something", ".ext"),
                 (normalizedPath.DirectoryName, normalizedPath.FileName, normalizedPath.Extension));
+        }
+
+
+        [TestMethod]
+        public void Constructor_CreateTupleWithoutItemNames()
+        {
+            (string, string, string) pathData = 
+                (@"\\test\unc\path\to", "something", ".ext");
+
+            Assert.AreEqual<string>(
+                @"\\test\unc\path\to", pathData.Item1);
+            Assert.AreEqual<string>(
+                "something", pathData.Item2);
+            Assert.AreEqual<string>(
+                ".ext", pathData.Item3);
+
+            Assert.AreEqual<(string, string, string)>(
+                (@"\\test\unc\path\to", "something", ".ext"),
+                (pathData));
+
+            Assert.AreEqual<Type>(
+                typeof(ValueTuple<string, string, string>), 
+                pathData.GetType());
+        }
+
+        [TestMethod]
+        public void Constructor_CreateTupleWithItemNames()
+        {
+            (string DirectoryName, string FileName, string Extension) pathData1 =
+                (@"\\test\unc\path\to", "something", ".ext");
+
+            Assert.AreEqual<string>(
+                @"\\test\unc\path\to", pathData1.DirectoryName);
+            Assert.AreEqual<string>(
+                "something", pathData1.FileName);
+            Assert.AreEqual<string>(
+                ".ext", pathData1.Extension);
+
+            var pathData2 = (DirectoryName: @"\\test\unc\path\to",
+                    FileName: "something", Extension: ".ext");
+            Assert.AreEqual<string>(
+                @"\\test\unc\path\to", pathData2.DirectoryName);
+            Assert.AreEqual<string>(
+                "something", pathData2.FileName);
+            Assert.AreEqual<string>(
+                ".ext", pathData2.Extension);
+
+            Assert.AreEqual<Type>(
+                typeof(ValueTuple<string, string, string>),
+                pathData2.GetType());
+        }
+
+        [TestMethod]
+        public void Constructor_ComparingTuplesWithMismathedItemNames()
+        {
+            (string DirectoryName, string FileName, string Extension) pathData1 =
+                (@"\\test\unc\path\to", "something", ".ext");
+
+            var pathData2 = (DirectoryName2: @"\\test\unc\path\to",
+                    FileName2: "something", Extension2: ".ext");
+
+            Assert.AreEqual<(string, string, string)>(pathData1, pathData2);
+
+            Assert.AreEqual<(string DirectoryName, string FileName, string Extension)>(
+                (DirectoryName: @"\\test\unc\path\to",
+                    FileName: "something", Extension: ".ext"),
+                (pathData2));
         }
 
         [TestMethod]
@@ -114,23 +155,8 @@ namespace CSharp7
                 "something", pathData.Item2);
             Assert.AreEqual<string>(
                 ".ext", pathData.Item3);
-
-            Assert.AreEqual<(string DirectoryName, string FileName, string Extension)>(
-                (DirectoryName: @"\\test\unc\path\to",
-                    FileName: "something", Extension: ".ext"),
-                (pathData));
-
-            Assert.AreEqual<(string DirectoryName, string FileName, string Extension)>(
-                (@"\\test\unc\path\to", "something", ".ext"),
-                (pathData));
-
-            Assert.AreEqual<(string, string, string)>(
-                (@"\\test\unc\path\to", "something", ".ext"),
-                (pathData));
-
-            Assert.AreEqual<Type>(typeof(ValueTuple<string, string, string>),
-                pathData.GetType());
         }
+
         [TestMethod]
         public void DeclaringTuples_WithMistmatchedTuplePropertyNames_IssuesWarning()
         {
@@ -169,16 +195,5 @@ namespace CSharp7
             Assert.AreEqual<string>(normalizedPath.Item2, normalizedPath.FileName);
             Assert.AreEqual<string>(normalizedPath.Item3, normalizedPath.Extension);
         }
-
-        [TestMethod]
-        public void ValueTuple_GivenNamedTuple_EquivalentToUnamedTupleWithSameValues()
-        {
-            var left = (DirectoryName: @"\\test\unc\path\to", FileName: "something", Extension: ".ext");
-            var right = (@"\\test\unc\path\to", "something", ".ext");
-
-            Assert.AreEqual<(string, string, string)>(
-                left, right);
-        }
-
     }
 }

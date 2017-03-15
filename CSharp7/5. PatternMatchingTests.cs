@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CSharp7
 {
-
     public abstract class Storage { }
     public class Dvd : Storage
     {
@@ -26,10 +25,6 @@ namespace CSharp7
             throw new NotImplementedException();
         }
     }
-
-
-
-
 
     public class PatternMatchingTests
     {
@@ -68,7 +63,6 @@ namespace CSharp7
                 string text1 = "Inigo Montoya";
                 Assert.IsTrue(text1 is "Inigo Montoya");
             }
-
 
             public void Eject(Storage storage)
             {

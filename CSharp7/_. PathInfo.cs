@@ -11,5 +11,6 @@ namespace CSharp7
         public string DirectoryName { get; set; }
         public string FileName { get; set; }
         public string Extension { get; set; }
+
     }
 }
